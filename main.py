@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from groq import Groq
 from PIL import Image
 import pytesseract
@@ -8,13 +8,12 @@ import os
 app = Flask(__name__)
 
 # Set up Groq client
-api_key = "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"
+api_key = os.environ.get('GROQ_API_KEY', 'your_default_api_key_here')
 client = Groq(api_key=api_key)
 
 @app.route('/')
 def index():
-    with open('index.html', 'r') as file:
-        return file.read()
+    return render_template('index.html')
 
 @app.route('/process_image', methods=['POST'])
 def process_image():
